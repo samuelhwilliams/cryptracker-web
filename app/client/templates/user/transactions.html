@@ -1,0 +1,76 @@
+{% extends "_base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+  <div class="col-lg-6">
+    <h1>Transactions</h1>
+  </div>
+
+  <div class="col-lg-6 pull-right">
+    <div class="panel panel-primary panel-sm">
+      <div class="panel-heading">
+        Record new transaction
+      </div>
+
+      <div class="panel-body">
+        <form class="form form-inline" role="form" method="post" action="">
+          {{ form.csrf_token }}
+          {{ form.hidden_tag() }}
+          {{ wtf.form_errors(form, hiddens="only") }}
+
+          <div class="input-group col-lg-3">
+            <label for="from_volume">Volume (from)</label>
+            {{ form.from_volume(class="form-control") }}
+          </div>
+
+          <div class="input-group col-lg-2">
+            <label for="from_currency">Currency (from)</label>
+            {{ form.from_currency(class="form-control") }}
+          </div>
+
+          <div class="input-group col-lg-3">
+            <label for="to_volume">Volume (to)</label>
+            {{ form.to_volume(class="form-control") }}
+          </div>
+
+          <div class="input-group col-lg-2">
+            <label for="to_currency">Currency (to)</label>
+            {{ form.to_currency(class="form-control") }}
+          </div>
+
+          <div class="input-group col-lg-1">
+            <button class="btn btn-success" type="submit">Log</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="col-lg-1">Date</th>
+          <th class="col-lg-2">From</th>
+          <th class="col-lg-1">Stake</th>
+          <th class="col-lg-1">Value</th>
+          <th class="col-lg-2">To</th>
+          <th class="col-lg-1">Broker</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for transaction in transactions %}
+          <tr>
+            <td class="col-lg-1">{{ transaction.datetime }}</td>
+            <td class="col-lg-2">{{ transaction.from_volume }} {{ transaction.from_currency }}</td>
+            <td class="col-lg-1">{{ transaction.stake }}</td>
+            <td class="col-lg-1">{{ transaction.value }} {{ user.native_currency }}</td>
+            <td class="col-lg-2">{{ transaction.to_volume }} {{ transaction.to_currency }}</td>
+            <td class="col-lg-1">{{ transaction.broker }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+{% endblock %}

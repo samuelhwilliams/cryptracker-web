@@ -1,0 +1,10 @@
+/* custom css */
+
+.site-content {
+  padding-top: 75px;
+}
+
+.input-group label {
+  width: 100%;
+  text-align: center;
+}

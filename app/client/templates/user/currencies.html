@@ -1,0 +1,65 @@
+{% extends "_base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+  <div class="col-lg-6">
+    <h1>Currencies</h1>
+  </div>
+
+  <div class="col-lg-6 pull-right">
+    <div class="panel panel-primary panel-sm">
+      <div class="panel-heading">
+        New Currency
+      </div>
+
+      <div class="panel-body">
+        <form class="form form-inline" role="form" method="post" action="">
+          {{ form.csrf_token }}
+          {{ form.hidden_tag() }}
+          {{ wtf.form_errors(form, hiddens="only") }}
+
+          <div class="input-group col-lg-2">
+            <label for="category">Category</label>
+            {{ form.category(class="form-control") }}
+          </div>
+
+          <div class="input-group col-lg-2">
+            <label for="code">Code</label>
+            {{ form.code(class="form-control") }}
+          </div>
+
+          <div class="input-group col-lg-5">
+            <label for="name">Currency Name</label>
+            {{ form.name(class="form-control") }}
+          </div>
+
+          <div class="col-lg-2 pull-right">
+            <button class="btn btn-success" type="submit">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="col-lg-3">Category</th>
+          <th class="col-lg-3">Code</th>
+          <th class="col-lg-6">Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for currency in currencies %}
+          <tr>
+            <td class="col-lg-3">{{ currency.category.name }}</td>
+            <td class="col-lg-3">{{ currency.code }}</td>
+            <td class="col-lg-6">{{ currency.name }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+{% endblock %}
