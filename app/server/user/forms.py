@@ -39,8 +39,7 @@ class RegisterForm(FlaskForm):
 
 class NewAccountForm(FlaskForm):
     currency_code = QuerySelectField('Currency Code', validators=[DataRequired()],
-                                     query_factory=lambda: Currency.query.order_by(Currency.category.asc()).
-                                     order_by(Currency.code).all(),
+                                     query_factory=lambda: Currency.query.filter(~Currency.accounts.any(Account.user_id == current_user.id)).all(),
                                      get_label='code')
 
 

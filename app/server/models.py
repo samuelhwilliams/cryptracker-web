@@ -19,7 +19,6 @@ class User(db.Model):
     admin = db.Column(db.Boolean, nullable=False, default=False)
 
     accounts = db.relationship('Account', backref='user', lazy='dynamic')
-    transactions = db.relationship('Transaction', backref='user', lazy='dynamic')
 
     def __init__(self, email, password, admin=False):
         self.email = email
@@ -75,7 +74,8 @@ class Account(db.Model):
     primary_account = db.Column(db.Boolean, nullable=False, default=False)
     created_on = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
-    currency = db.relationship('Currency', lazy='joined', uselist=False)
+    transactions = db.relationship('Transaction', backref='user', lazy='dynamic')
+    currency = db.relationship('Currency', backref='accounts', lazy='joined')
 
     def __init__(self, user_id, currency_id, primary_account=False):
         self.user_id = user_id
